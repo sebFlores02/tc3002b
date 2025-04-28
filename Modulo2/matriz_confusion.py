@@ -1,5 +1,4 @@
 def calcular_matriz_confusion(y_true, y_pred):
-    """Calcula la matriz de confusión y métricas"""
     TP = 0
     TN = 0
     FP = 0
@@ -21,15 +20,13 @@ def calcular_matriz_confusion(y_true, y_pred):
     print('pred neg    ', TN, "        ", FN)
     print('pred pos    ', FP, "        ", TP)
 
-    precision = TP / (TP + FP) if (TP + FP) > 0 else 0
-    recall = TP / (TP + FN) if (TP + FN) > 0 else 0
-    f1 = 2*precision*recall / (precision + recall) if (precision + recall) > 0 else 0
+    precision = TP / (TP + FP)
+    accuracy = (TP + TN) / (TP + TN + FP + FN)
+    sensitivity = TP / (TP + FN)
+    specificity = TN / (TN + FP)
+    f1 = 2 * precision * sensitivity / (precision + sensitivity)
+    numerator = (TP * TN) - (FP * FN)
+    denominator = ((TP + FP) * (TP + FN) * (TN + FP) * (TN + FN)) ** 0.5
+    mcc = numerator / denominator
 
-    print("TP:", TP)
-    print("TN:", TN)
-    print("FP:", FP)
-    print("FN:", FN)
-    print("Precisión:", precision)
-    print("Recall:", recall)
-    print("F1:", f1)
-
+    return precision, accuracy, sensitivity, specificity, f1, mcc
