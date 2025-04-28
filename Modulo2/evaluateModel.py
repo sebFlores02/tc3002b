@@ -14,7 +14,6 @@ def evaluate_model(name, model, X_test, y_test):
         y_pred_proba = model.predict_proba(X_test)[:, 1]
         fpr, tpr, _ = roc_curve(y_test, y_pred_proba)
         roc_auc = auc(fpr, tpr)
-        print(f"AUC-ROC: {roc_auc:.4f}")
 
         return {
             'name': name,

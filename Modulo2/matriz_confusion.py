@@ -16,10 +16,6 @@ def calcular_matriz_confusion(y_true, y_pred):
             else:
                 FN += 1
 
-    print('         ', 'label neg ', ' label pos')
-    print('pred neg    ', TN, "        ", FN)
-    print('pred pos    ', FP, "        ", TP)
-
     precision = TP / (TP + FP)
     accuracy = (TP + TN) / (TP + TN + FP + FN)
     sensitivity = TP / (TP + FN)
