@@ -21,6 +21,9 @@ Para desarrollar el proyecto se consultó de papers científicos de los cuales s
 1) https://pmc.ncbi.nlm.nih.gov/articles/PMC10801181/pdf/fbioe-11-1336255.pdf
 Este paper fue encontrado en una búsqueda de Google en la página de la 'National Library of Medicine'. Me llamó la atención por múltiples razones, principalmente por la confianza que me dio al verlo publicado en esa librería. Además, seguía un enfoque muy similar al dataset elegido para mi proyecto y usaba una arquitectura sumamente interesante que creaba una solución híbrida. Este paper es muy detallado, con múltiples experimentos, mucho análisis, comparaciones y estadísticas. Fue crítico para las últimas fases ya que usé la misma infraestructura para replicar los experimentos con mi dataset y con mi procesado de datos, además de para implementar estadísticas más avanzadas.
 
+2) [Shigemizu, D., Akiyama, S., Asanomi, Y. et al. A comparison of machine learning classifiers for dementia with Lewy bodies using miRNA expression data. BMC Med Genomics 12, 150 (2019). https://doi.org/10.1186/s12920-019-0607-3](https://bmcmedgenomics.biomedcentral.com/articles/10.1186/s12920-019-0607-3)
+Este paper fue fundamental para la selección inicial de hiperparámetros utilizados durante el refinamiento del modelo. Fue especialmente útil para la configuración de Random Forest y Support Vector Machine.
+
 ### Papers No Aceptados
 
 1) https://arxiv.org/pdf/1711.07831
@@ -229,14 +232,74 @@ De manera simplificada:
 
 Podemos observar cómo la propuesta inicial "F-Score" obtuvo los mejores resultados. Para esta comparación se usa accuracy que, como ya se discutió, indica qué tan bueno es el modelo que se puede construir con el subconjunto seleccionado.
 
+## Refinamiento del modelo
+
+Como se discutió anteriormente, el paper de investigación utilizó configuraciones base para los modelos, por lo que dejamos rendimiento sobre la mesa, ya que ajustar los hiperparámetros y refinar el modelo podía mejorar su desempeño. Hice uso de las referencias del paper original para encontrar propuestas que permitieran mejorar la configuración.
+
+La metodología que utilicé fue híbrida: por un lado, investigué y agregué hiperparámetros recomendados en literatura académica; por otro lado, usé una herramienta que permite encontrar los mejores hiperparámetros para cada modelo. Esta herramienta se llama GridSearchCV. Para la evaluación, le proporcioné los modelos y un grid que contenía múltiples opciones para la configuración de hiperparámetros, todos obtenidos de artículos científicos. Esta herramienta hace uso de cross-validation y de la métrica de accuracy para conocer qué combinación de hiperparámetros se comporta mejor con cada modelo. Como comenté, también agregué y eliminé muchas configuraciones hasta obtener el mejor resultado posible.
+
+Después de refinar los modelos individuales, seguí el mismo pipeline para construir un clasificador con configuración “hard voting”.
+
+Este refinamiento de hiperparámetros me permitió obtener el mejor desempeño en la mayoría de las métricas, superando a todos los modelos individuales evaluados en el Experimento 1, así como a la propuesta inicial del clasificador.
+
+#### Modelo clasificador sin refinamiento
+
+##### Con Cross Validation
+
+| Accuracy    | 93.41% |
+| ------ | ---------|
+| Precision   | 94.10% |  
+| Sensitivity | 92.63% |  
+| F1-Score    | 93.34% |
+
+| Accuracy    | 91.99% | 
+| ------ | ---------| 
+| Precision   | 87.16% |  
+| Sensitivity | 91.49% |  
+| Specificity | 92.28% |
+| F1-Score    | 89.27% |
+| MCC         | 82.95% |
+
+#### Modelo Actualizado con Refinamiento
+
+##### Con Cross Validation
+
+| Accuracy    | 94.01% |
+| ------ | ---------|
+| Precision   | 95.35% |  
+| Sensitivity | 92.54% |  
+| F1-Score    | 93.90% |
+
+| Accuracy    | 91.99% | 
+| ------ | ---------| 
+| Precision   | 93.80% |  
+| Sensitivity | 91.49% |  
+| Specificity | 95.12% |
+| F1-Score    | 91.49% |
+| MCC         | 86.61% |
+
+Como se puede observar, el modelo con hiperparámetros refinados mostró mejoras en todas las métricas. Inicialmente probé el modelo con cross-validation para asegurarme de que no se estuviera memorizando los datos, sino que realmente estuviera aprendiendo. Además, al correr las mismas métricas sobre datos no vistos, se confirma que sí existe una mejora, lo que indica que afinar los modelos, en lugar de usar configuraciones base, permitió crear un modelo más robusto para la validación.
+
 ## Usar el Modelo
 
 Para hacer uso del modelo, se puede clonar el repositorio, acceder a la carpeta del módulo donde se encuentran los archivos. El proyecto se desarrolló en un formato .ipynb que permite correr bloques de código y permite separar los pasos y lógica. Para probar el modelo con nuevos datos se puede hacer uso del archivo "predictions.ipynb". Este archivo abre un modelo previamente guardado con pickle. Pickle es una librería que te permite guardar modelos y configuraciones e importarlos para realizar evaluaciones. Además, también puedes elegir qué dataset quieres usar para la evaluación. Es un frame de pandas que cuenta con las columnas del archivo original. Este frame es procesado de manera simple para que sea compatible con lo que espera el modelo para que pueda correrse de manera correcta. Al correr el bloque de código podemos observar la predicción de la clase. En caso de que se pase una query que tenga la clase output, ésta es separada e ignorada y se usa simplemente para la validación para no influir con el modelo. Finalmente, se guardan las predicciones en un archivo CSV para la validación.
+
 ## Referencias
 
 [1] Javeed A, Anderberg P, Ghazi AN, Noor A, Elmståhl S, Berglund JS. Breaking barriers: a statistical and machine learning-based hybrid system for predicting dementia. Front Bioeng Biotechnol. 2024 Jan 8;11:1336255. doi: 10.3389/fbioe.2023.1336255. PMID: 38260734; PMCID: PMC10801181.
 
-## Conclusiones
+[2] Shigemizu, D., Akiyama, S., Asanomi, Y. et al. A comparison of machine learning classifiers for dementia with Lewy bodies using miRNA expression data. BMC Med Genomics 12, 150 (2019). https://doi.org/10.1186/s12920-019-0607-3
 
-Hasta ahora, el modelo que mejor ha funcionado ha sido el Random Forest, usando la configuración tomada del artículo número 3. Todavía faltan varias fases por completar y hay muchos experimentos por hacer, pero este modelo ha sido el que mejor se ha ajustado a lo que busco. En las métricas se puede ver claramente que tuvo un mejor rendimiento comparado con los otros modelos probados.
+## Correcciones y Conclusiones
+
+A lo largo del proyecto, realicé numerosas correcciones y mejoras con el objetivo de presentar un modelo robusto y sólido. Estas correcciones incluyeron cambios en los datasets, ya que el primero que seleccioné presentaba ciertos factores que impedían obtener buenos resultados. Para corregir esto, seleccioné otro conjunto de datos y utilicé técnicas como SMOTE para atender posibles desbalances.
+
+Además, las métricas iniciales no me permitían analizar en profundidad la robustez del modelo, por lo que expandí la función de evaluación para obtener métricas más completas.
+
+Un cambio importante ocurrió durante la presentación del modelo en vivo con el profesor, quien me comentó que los papers del estado del arte que había seleccionado no eran suficientes. Por ello, busqué un artículo de investigación más robusto y completo, lo cual implicó numerosos cambios en mi código, especialmente en la implementación del modelo y la obtención de nuevas métricas. Sin duda, esto me retrasó, pero fueron cambios significativos. Este nuevo paper presentó una arquitectura, metodología y pipeline mucho más complejos que los que propuse inicialmente.
+Para consultar las implementaciones anteriores, revisar la siguiente liga: [Modulo2/deprecated/ModelosIniciales.md](https://github.com/sebFlores02/tc3002b/blob/main/Modulo2/deprecated/ModelosIniciales.md).
+
+También tuve que cambiar la forma en la que recibo queries, ya que durante la presentación del modelo hubo cierta confusión al generar predicciones. Para resolver esto, agregué una nueva separación de datos, asegurándome de contar con datos completamente nuevos que nunca fueron usados durante el entrenamiento, permitiendo validaciones más transparentes.
+
+En general, tuve que realizar muchos ajustes para poder seguir el pipeline de la propuesta y para documentar mis resultados de manera clara.
 
