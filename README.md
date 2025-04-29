@@ -53,7 +53,7 @@ Para el preprocesado de datos usé tres técnicas:
 
 ### Versión Inicial
 
-Se realizó una versión inicial de pruebas. La implementación y los resultados se encuentran en: [Modulo2/deprecated/ModelosIniciales.md](https://github.com/sebFlores02/tc3002b/blob/main/Modulo2/deprecated/ModelosIniciales.md)
+Se realizó una versión inicial de pruebas, la implementación y los resultados se pueden encontrar aquí [Modulo2/deprecated/ModelosIniciales.md](https://github.com/sebFlores02/tc3002b/blob/main/Modulo2/deprecated/ModelosIniciales.md)
 
 ### Versión Final
 
@@ -74,25 +74,25 @@ Para esta etapa se usaron técnicas más avanzadas como:
    
 Para este experimento buscamos conocer el numero optimo de columnas o la "k" optima para el siguiente experimento. Usamos el modelo conjunto para evaluar ciertas metricas que se discturian proximamente y se evaluaron para sets de caracteristicas. Estos sets fuero extraidos de la lectrua y son los siguientes. [2, 4, 6, 7, 8, 9, 10, 12] 
 
-#### Fase Dos Experimento 1
+#### Fase Dos Experimento Uno
 
-Para este experimento se hizo uso de conceptos muy similares al experimento anterior, donde se hizo uso de un mismo voting classifier con la misma configuración, simplemente haciendo uso del mejor subcojunto definido por el experiment anterior. El mejor resultado fue para cuando se usaron los 6 features mas significativos para la predicción. La unica diferencia en este experimento es un concepto nuevo conocido como cross_validate.
+Para este experimento se hizo uso de conceptos muy similares al experimento anterior, donde se hizo uso de un mismo voting classifier con la misma configuración, simplemente haciendo uso del mejor subconjunto definido por el experimento anterior. El mejor resultado fue para cuando se usaron los 6 features más significativos para la predicción. La única diferencia en este experimento es un concepto nuevo conocido como cross_validate.
 
-Este concepto es mas relacionado al tema de metricas y validaciown, pero en terminos simples nos permite validar si el el modelo funciona no solo para una segmentación detallada o especifica de datos. Ademas, el paper usado usa este tecnica para asegurarse que el modelo no esta sobre ajustado antes de ser utilizado para las metricas y resultados, ya que queremoe evitar que el modelo memorize en lugar de parender. Para este experimento el paper recomenda un valor de 5.
+Este concepto es más relacionado al tema de métricas y validación, pero en términos simples nos permite validar si el modelo funciona no solo para una segmentación detallada o específica de datos. Además, el paper usado usa esta técnica para asegurarse que el modelo no está sobre ajustado antes de ser utilizado para las métricas y resultados, ya que queremos evitar que el modelo memorice en lugar de aprender. Para este experimento el paper recomienda un valor de 5.
 
-#### Fase Dos Experimento 2
+#### Fase Dos Experimento Dos
 
-Este experimento fue mas enfocado a la evaluación de caracteristicas por lo que se explicara mas en la siguiente sección
+Este experimento fue más enfocado a la evaluación de características por lo que se explicará más en la siguiente sección. Aunque, se hizo uso de cross_validation pero esta vez el paper de investigación recomendaba un k fold de 10.
 
 ## Evaluación inicial del modelo
 
 ### Versión Inicial
 
-Sea realizo una versión inicial de pruebas, la implementación y los resultados se pueden encontrar aqui: [Modulo2/deprecated/ModelosIniciales.md](https://github.com/sebFlores02/tc3002b/blob/main/Modulo2/deprecated/ModelosIniciales.md)
+Se realizó una versión inicial de pruebas, la implementación y los resultados se pueden encontrar aquí: [Modulo2/deprecated/ModelosIniciales.md](https://github.com/sebFlores02/tc3002b/blob/main/Modulo2/deprecated/ModelosIniciales.md)
 
 ### Versión Final
 
-Para la evaluación de los modelo hice uso de métricas vistas en clase asi como metricas mas avanzadas propuestas en el articulo del estado del arte. Devido a que las metricas se usaban de manera frecuente decidi crear dos funciones reutilizables para optimizar el codigo. La primera siendo "calcular_matriz_confusion" que regresaba las estadisticas que se peuden obtener haciendo uso  de los verdaderos positivos, negativos y falsos positivos y negativos. En esta función se calculaban las siguientes metricas: precision, accuracy, sensitivity, specificity, f1, mcc. Todas estas fueron calucladas de manera manual. La siguiente función es "evaluate_model" esta regresa todas las metricas incouyendo las de lafunción anterior, especificamente regresa auc que es una metrica discutida en el paper de investigación seleccionado.
+Para la evaluación de los modelos hice uso de métricas vistas en clase así como métricas más avanzadas propuestas en el artículo del estado del arte. Debido a que las métricas se usaban de manera frecuente decidí crear dos funciones reutilizables para optimizar el código. La primera siendo "calcular_matriz_confusion" que regresaba las estadísticas que se pueden obtener haciendo uso de los verdaderos positivos, negativos y falsos positivos y negativos. En esta función se calculaban las siguientes métricas: precision, accuracy, sensitivity, specificity, f1, mcc. Todas estas fueron calculadas de manera manual. La siguiente función es "evaluate_model" esta regresa todas las métricas incluyendo las de la función anterior, específicamente regresa auc que es una métrica discutida en el paper de investigación seleccionado.
 
 ### Resultados Fase Uno Experimento Uno
 
@@ -174,21 +174,21 @@ F-Score permite cuantificar la significancia de una feature para la predicción 
 | 10     | 0.912145 |  0.914894   |   0.910569  |   0.814386  | 
 | 12     | 0.919897 |  0.914894   |   0.922764  |   0.829495  |
 
-En este proceso hacemos uso de los features mas importantes que fueron calculados mediante el f-score. Estamos evaluando subconjuntos de caracteristicas y estamos geenrando y evaluando un modelo para cada uno de los subconjuntos y evaluando con las metricas previamente analizadas. Esto nos permite obetener el numero obtimo de subconjutnos que sera usado para entrenar el modelo final. Estos subconjunots fueron indicados en el paper. Para nuestra situacio2n obtuvimos que el subcojunot con los mejores resutlados fue de 6. POdemos observar como entrenando y probando con pocos subconjuntos afecta negativamente el desempeño del modelo.
+En este proceso hacemos uso de los features más importantes que fueron calculados mediante el F-Score. Estamos evaluando subconjuntos de características y estamos generando y evaluando un modelo para cada uno de los subconjuntos y evaluando con las métricas previamente analizadas. Esto nos permite obtener el número óptimo de subconjuntos que será usado para entrenar el modelo final. Estos subconjuntos fueron indicados en el paper. Para nuestra situación obtuvimos que el subconjunto con los mejores resultados fue de 6. Podemos observar cómo entrenar y probar con pocos subconjuntos afecta negativamente el desempeño del modelo.
 
 #### Mejor subconjunto:
 
 6 características
 Accuracy: 0.92%
 
-Esta metrica de accuracy mide la capacidad de construir un modelo efectivo con el conjunto seleccionado. Usa metricas under the hood como cross validation para llegar al resultado.
+Esta métrica de accuracy mide la capacidad de construir un modelo efectivo con el conjunto seleccionado. Usa métricas under the hood como cross validation para llegar al resultado.
 
 ### Resultados Fase Dos Experimento Uno
 
 #### Cross Validation
 
-Para esta etapa se hizo uso de la técnica de cross validation, la configuracio2n sugerida por el paper de investigación fueron k = 5.
-Esta tecnica permite evaluar el modelo multiples veces y obteniendoi un promedio despues del proceso. De manera mas especifica si tenemos 5 "folds" dividimos nuestra información, usamos 4 partes para entrenar y una para validar, y realzamis 5 rotaciones para evaluar de manera profunda el modelo. El promedio de las rotaciones es el resultado, esto lo hacemos para asegurarnos que nuestro modelo este aprendiendo y no memorizando. Esta tecnica fue usada en la metodlogia del paper consultado. Podemos obervar que al evaluar con las mismas metricas obtuvimos los mejores resultados hasta el momento. Esto nos indica que el modelo verdaremente esta aprendiendo y es robusto.
+Para esta etapa se hizo uso de la técnica de cross validation, la configuración sugerida por el paper de investigación fueron k = 5.
+Esta técnica permite evaluar el modelo múltiples veces y obteniendo un promedio después del proceso. De manera más específica, si tenemos 5 "folds" dividimos nuestra información, usamos 4 partes para entrenar y una para validar, y realizamos 5 rotaciones para evaluar de manera profunda el modelo. El promedio de las rotaciones es el resultado, esto lo hacemos para asegurarnos que nuestro modelo esté aprendiendo y no memorizando. Esta técnica fue usada en la metodología del paper consultado. Podemos observar que al evaluar con las mismas métricas obtuvimos los mejores resultados hasta el momento. Esto nos indica que el modelo verdaderamente está aprendiendo y es robusto.
 
 | Accuracy    | 93.41% |
 | ------ | ---------|
@@ -198,7 +198,7 @@ Esta tecnica permite evaluar el modelo multiples veces y obteniendoi un promedio
 
 #### Evaluación Modelo Final
 
-Finalmente, evaluamos de la misma manera que con los modelos base, ya que realizar una comparación de cross validation para el modelo hibrido no es justo ya que obtenemos mucha mas profunidad con cross valdiation. Podemos observar que los resultados son muy buenos, estando cerca o or encima del 90% en la mayoria de las metricas, indicando un buen desempeño en todas las metricas asegunrando que el modelo es robusto y de utilidad.
+Finalmente, evaluamos de la misma manera que con los modelos base, ya que realizar una comparación de cross validation para el modelo híbrido no es justo ya que obtenemos mucha más profundidad con cross validation. Podemos observar que los resultados son muy buenos, estando cerca o por encima del 90% en la mayoría de las métricas, indicando un buen desempeño en todas las métricas asegurando que el modelo es robusto y de utilidad.
 
 | Accuracy    | 91.99% |
 | ------ | ---------| 
@@ -210,14 +210,14 @@ Finalmente, evaluamos de la misma manera que con los modelos base, ya que realiz
 
 ### Resultados Fase Dos Experimento Uno
 
-Ademas, el paper de investigación hace uso de validaciones para la selección de características. Esta comparacio2n es importante ya que existen mutiples tecnicas para realizar la optimización.
-De manera simplificada: 
+Además, el paper de investigación hace uso de validaciones para la selección de características. Esta comparación es importante ya que existen múltiples técnicas para realizar la optimización.
+De manera simplificada:
 
-- f-score mide de manera individual la relacion con la clase sin considerar otras interaccioes y es ideal paradatos numericos en clasificaciones binarias.
-- chi-sqaure se usa para detectar relaciones no lineales entre variables categorizas y clases deseadas
-- mutual information consdiera conjuntos y permite saber como una caracteristica reduce la incertidumbre de la prediccion de una clase.
-- RFE usa la iteración para eliminar las clases con menos peso o menos importantes en cada "paso" dado
-- Lasso permite eliminar cacrecteristicas irrelevantes y penaliza usar un numero excesivo de caracteristicas.
+- F-Score mide de manera individual la relación con la clase sin considerar otras interacciones y es ideal para datos numéricos en clasificaciones binarias.
+- Chi-Square se usa para detectar relaciones no lineales entre variables categóricas y clases deseadas.
+- Mutual Information considera conjuntos y permite saber cómo una característica reduce la incertidumbre de la predicción de una clase.
+- RFE usa la iteración para eliminar las clases con menos peso o menos importantes en cada "paso" dado.
+- Lasso permite eliminar características irrelevantes y penaliza usar un número excesivo de características.
 
 | Método     | Accuracy |
 | ------ | ---------| 
@@ -227,11 +227,14 @@ De manera simplificada:
 | RFE        | 87.513%  |
 | Lasso      | 93.406%  |
 
-Podemos observar como la propuesta inidical "f-score" es obtuvo los mejores resultados, para esta comparacio2n se usa accuracy que como ya se discutio indica que tan buenoe s el modelo que se puede construir con el subconjunto seleccionado.
+Podemos observar cómo la propuesta inicial "F-Score" obtuvo los mejores resultados. Para esta comparación se usa accuracy que, como ya se discutió, indica qué tan bueno es el modelo que se puede construir con el subconjunto seleccionado.
 
 ## Usar el Modelo
 
-Para hacer uso del modelo, se puede clonar el repo, acceder a la carpeta del modulo donde se encuentran los archivos. El prpoyecto se desarrollo en un ofmrato .ipynb que permite correr bloques de codigo y eprmite seprara los pasos y logica. Para probar el modelo con nuevos datos se puede hacer uso del archivo "predictions.ipynb". Este archivo abre un modelo previamente guardado con pickle. Pickle es una liberria que te permite guardar modelos yu ocnfigrauciones e impoartarlos para realizar evaluaciones. Ademasm tambien puedes elegir que dataset quieres usar para la evaluacion. Es un frame de pandas que cuenta con las columnas del archivo original. Este fram es procesado de manera simple para que sea compatible con lo que espera el modelo apra que peuda correrse de manera coerrecta. Al correr el bloque de codigo podemos observar la predicción de la clase. En caso de que se pase una query que tenga la clase output,e sta es separada e ignorada y se usa simplemente para la validaciown para no influir con el modelo. Finalmente, se guardan las predicciones en unarchivo csv paara la valdiación.
+Para hacer uso del modelo, se puede clonar el repositorio, acceder a la carpeta del módulo donde se encuentran los archivos. El proyecto se desarrolló en un formato .ipynb que permite correr bloques de código y permite separar los pasos y lógica. Para probar el modelo con nuevos datos se puede hacer uso del archivo "predictions.ipynb". Este archivo abre un modelo previamente guardado con pickle. Pickle es una librería que te permite guardar modelos y configuraciones e importarlos para realizar evaluaciones. Además, también puedes elegir qué dataset quieres usar para la evaluación. Es un frame de pandas que cuenta con las columnas del archivo original. Este frame es procesado de manera simple para que sea compatible con lo que espera el modelo para que pueda correrse de manera correcta. Al correr el bloque de código podemos observar la predicción de la clase. En caso de que se pase una query que tenga la clase output, ésta es separada e ignorada y se usa simplemente para la validación para no influir con el modelo. Finalmente, se guardan las predicciones en un archivo CSV para la validación.
+## Referencias
+
+[1] Javeed A, Anderberg P, Ghazi AN, Noor A, Elmståhl S, Berglund JS. Breaking barriers: a statistical and machine learning-based hybrid system for predicting dementia. Front Bioeng Biotechnol. 2024 Jan 8;11:1336255. doi: 10.3389/fbioe.2023.1336255. PMID: 38260734; PMCID: PMC10801181.
 
 ## Conclusiones
 
