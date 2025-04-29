@@ -2,13 +2,10 @@ from matriz_confusion import calcular_matriz_confusion
 from sklearn.metrics import roc_curve, auc
 
 def evaluate_model(name, model, X_test, y_test):
-    # Predicciones de clase
     y_pred = model.predict(X_test)
 
     precision, acc, sensitivity, specificity, f1, mcc = calcular_matriz_confusion(y_test, y_pred)
 
-
-    # Calcular AUC-ROC
     roc_auc = 0
     if hasattr(model, 'predict_proba'):
         y_pred_proba = model.predict_proba(X_test)[:, 1]
