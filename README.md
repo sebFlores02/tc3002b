@@ -2,7 +2,7 @@
 
 ## Descripción del Proyecto
 
-Este proyecto se enfoca en la clasificación binaria de datos mediante técnicas de aprendizaje supervisado. Para el desarrollo de las distintas fases, se utilizaron múltiples datasets provenientes de la plataforma Kaggle. Esta decisión se tomó con el objetivo de mejorar la robustez del modelo y cubrir distintos escenarios de evaluación. Aunque los datasets presentan diferencias, se emplearon estrategias de preprocesamiento y técnicas de modelado similares para asegurar la coherencia entre los experimentos. A lo largo del proceso se probaron diversas arquitecturas y algoritmos de clasificación inspirados de investigaciones de estado del arte, con el fin de identificar el modelo que ofrezca el mejor rendimiento.
+Este proyecto se enfoca en la clasificación binaria de datos mediante técnicas de aprendizaje supervisado. Para el desarrollo de las distintas fases, se utilizaron múltiples datasets provenientes de la plataforma Kaggle. Esta decisión se tomó con el objetivo de mejorar la robustez del modelo y cubrir distintos escenarios de evaluación. Aunque los datasets presentan diferencias, se emplearon estrategias de preprocesamiento y técnicas de modelado similares para asegurar la coherencia entre los experimentos. A lo largo del proceso se probaron diversas arquitecturas y algoritmos de clasificación inspirados en investigaciones de estado del arte, con el fin de identificar el modelo que ofreciera el mejor rendimiento.
 
 ## Descripción de los Datasets
 
@@ -19,7 +19,7 @@ Link: https://www.kaggle.com/datasets/rabieelkharoua/alzheimers-disease-dataset
 Para desarrollar el proyecto se consultó de papers científicos de los cuales se obtuvieron ejemplos de proyectos e investigaciones anteriores relacionados al tema elegido. Estos papers de investigación fueron críticos para encontrar experimentos que se pusieron a prueba, tanto de modelos, como de configuración y estadísticas para medir qué tan robusto era mi modelo.
 
 1) https://pmc.ncbi.nlm.nih.gov/articles/PMC10801181/pdf/fbioe-11-1336255.pdf
-El paper fue encontrado en una busqueda de google en la página 'National Library of Medicine'. Este paper me llamó la atención por múltiples razones pero principalmente por la confianza que me dio al velro publicado en la libreria. Ademas, este paper seguia un enfoque muy similar al dataset elegido para mi proyecto y usaba una arquitectura sumamente interesante que creaba una solución hibrida. Este paper es muy detallado, conlleva múltiples experimentos, mucho analisis, comparaciones, estadisticas. EL paper fue critico para las ultimas fases ya que use la misma infraestrucutra para replicar los experimentos con mi dataset y con mi procesado de datos, ademas para estadisticas mas avanzadas.
+Este paper fue encontrado en una búsqueda de Google en la página de la 'National Library of Medicine'. Me llamó la atención por múltiples razones, principalmente por la confianza que me dio al verlo publicado en esa librería. Además, seguía un enfoque muy similar al dataset elegido para mi proyecto y usaba una arquitectura sumamente interesante que creaba una solución híbrida. Este paper es muy detallado, con múltiples experimentos, mucho análisis, comparaciones y estadísticas. Fue crítico para las últimas fases ya que usé la misma infraestructura para replicar los experimentos con mi dataset y con mi procesado de datos, además de para implementar estadísticas más avanzadas.
 
 ### Papers No Aceptados
 
@@ -51,22 +51,27 @@ Para el preprocesado de datos usé tres técnicas:
 
 ## Implementación de Modelo 
 
+### Versión Inicial
+
+Se realizó una versión inicial de pruebas. La implementación y los resultados se encuentran en: [Modulo2/deprecated/ModelosIniciales.md](https://github.com/sebFlores02/tc3002b/blob/main/Modulo2/deprecated/ModelosIniciales.md)
+
 ### Versión Final
 
-Para mi implementación final hice uso del paper del estado del arte que contaba con multiples experimentos y fases. Todos los modelos creados fueron usados con la ayuda del framework "sklearn" que permite usar estos modelos de manera rapida y flexible. Ademas, para la etapa inicial s euso la configracio2n base para todos los modelos, tal cual lo decia el estado del arte.
+Para la implementación final usé el paper del estado del arte, el cual contaba con múltiples experimentos y fases. Todos los modelos fueron implementados con la ayuda del framework sklearn, que permite el uso de modelos de forma rápida y flexible. Además, para la etapa inicial se usó la configuración base indicada en el paper.
 
 #### Fase Uno Experimento Uno
 
-Inicialmente el paper hacia uso de 8 modelos todos con su configuración básica. Para estos modelos se usaba el dataset balanceado completo, sin excluir columnas. Para esta arquitectura inicial se hicieron uso de me2tricas que seran discutidas en la proxima sección. Los modelos que fueron utilizados fueron los siguientes: DecisionTreeClassifier,  GaussianNB, LogisticRegression, RandomForestClassifier, LinearDiscriminantAnalysis, AdaBoostClassifier, KNeighborsClassifier.
+Inicialmente, el paper hacía uso de 8 modelos, todos con configuración básica. Estos modelos se entrenaban con el dataset balanceado, sin excluir columnas. Para esta arquitectura se evaluaron métricas que se discutirán en la próxima sección. Los modelos utilizados fueron: DecisionTreeClassifier, GaussianNB, LogisticRegression, RandomForestClassifier, LinearDiscriminantAnalysis, AdaBoostClassifier, y KNeighborsClassifier.
 
 #### Fase Uno Experimento Dos
 
-Esta propuesta es una arquitectura significativamente mas compleja, la propuesta es un modelo hibrido que hace uso de la combinación de modelos ademas de la selección de sets de features buscnado la optimización de la informacion ingresada al modelo.
-Para esta etapa se hicieron uso de te2cnicas mas avanzadas como lo fueron:
+Esta propuesta incluye una arquitectura más compleja: un modelo híbrido que combina varios modelos y selecciona subconjuntos de features buscando optimizar la información ingresada al modelo.
 
-1) SelectKBest: Esta herramienta permite elegir las características mas significativas para la predicción de resultados. Es una herramienta que se complementa con muchas otras para la optimizacioón, ya que peudes tu decidir "k" que es el numero seleccionado de columnas deseadas o se puede optimizar buscando la mejor combinación o selección de columnas posibles, que fue lo que se temrino usando con la herramienta siguiente.
-2) VotingClassifier: Esta herramienta crea un modelo combiando que entrena modelos por separados pero une las predicciones de los modelos deseados para predicciones finales. Esto se hace ya que cada modelo se entrena de manera diferente, ciertos modelos pueden destacar en ciertos casos y tener desempeños bajos en otros, de esta manera podemos compensar errores de modelos individuales y podemos obtener modelos mas fuertes y estables. Existen dos configuraciones para esta herramienta 'soft' y 'hard'. Unicamente entrare en detalle con 'hard' ya que fue la que se usaba en el estado del arte seleccionado. Esta configuración cuenta la predicción de la clase mas votada dentro de todas las predicciones de los modelos y decide en esa predicción mas votada. El estado del arte hacia uso de 5 modelos para el voting classifier estos siendo: DecisionTreeClassifier, SVC, GaussianNB, LogisticRegression y RandomForestClassifier, los cuales tambien se usaron para mi implementacion.
+Para esta etapa se usaron técnicas más avanzadas como:
 
+1) SelectKBest: Permite elegir las características más significativas para la predicción. Se puede definir el valor de "k" manualmente o buscar la mejor combinación posible, lo cual fue lo que hice en conjunto con la siguiente herramienta.
+2) VotingClassifier: Crea un modelo combinado que entrena distintos modelos por separado, pero une sus predicciones para generar una predicción final. Este enfoque compensa debilidades individuales y produce modelos más estables. Existen dos configuraciones: 'soft' y 'hard'. Usé 'hard', que selecciona la clase más votada entre todos los modelos. El paper usaba 5 modelos en el VotingClassifier: DecisionTreeClassifier, SVC, GaussianNB, LogisticRegression y RandomForestClassifier, los cuales también usé.
+   
 Para este experimento buscamos conocer el numero optimo de columnas o la "k" optima para el siguiente experimento. Usamos el modelo conjunto para evaluar ciertas metricas que se discturian proximamente y se evaluaron para sets de caracteristicas. Estos sets fuero extraidos de la lectrua y son los siguientes. [2, 4, 6, 7, 8, 9, 10, 12] 
 
 #### Fase Dos Experimento 1
@@ -80,6 +85,12 @@ Este concepto es mas relacionado al tema de metricas y validaciown, pero en term
 Este experimento fue mas enfocado a la evaluación de caracteristicas por lo que se explicara mas en la siguiente sección
 
 ## Evaluación inicial del modelo
+
+### Versión Inicial
+
+Sea realizo una versión inicial de pruebas, la implementación y los resultados se pueden encontrar aqui: [Modulo2/deprecated/ModelosIniciales.md](https://github.com/sebFlores02/tc3002b/blob/main/Modulo2/deprecated/ModelosIniciales.md)
+
+### Versión Final
 
 Para la evaluación de los modelo hice uso de métricas vistas en clase asi como metricas mas avanzadas propuestas en el articulo del estado del arte. Devido a que las metricas se usaban de manera frecuente decidi crear dos funciones reutilizables para optimizar el codigo. La primera siendo "calcular_matriz_confusion" que regresaba las estadisticas que se peuden obtener haciendo uso  de los verdaderos positivos, negativos y falsos positivos y negativos. En esta función se calculaban las siguientes metricas: precision, accuracy, sensitivity, specificity, f1, mcc. Todas estas fueron calucladas de manera manual. La siguiente función es "evaluate_model" esta regresa todas las metricas incouyendo las de lafunción anterior, especificamente regresa auc que es una metrica discutida en el paper de investigación seleccionado.
 
@@ -96,7 +107,38 @@ Para la evaluación de los modelo hice uso de métricas vistas en clase asi como
 | AdaBoost | 0.909561 |  0.848684  |   0.914894  |   0.906504  | 0.880546 | 0.809422 | 0.943868 |
 | kNN      | 0.640827 |  0.504348  |   0.822695  |   0.536585  | 0.625337 | 0.352125 | 0.731433 |
 
+El mejor resultado para el modelo base fue el Random Forest y se usará como referencia para la explicación. EStas metricas fueron obtenidas del paper y de la clase y fueron calcualdas manualmente haciendo uso de la matriz de confusión: Verdaderos Positivos (TP), Falsos Positivos (FP), Verdaderos Negativos (TN), y Falsos Negativos (FN).
+
+Precision:
+Indica la cantidad de predicciones positivas correctas.
+Precision = TP/TP+FP
+
+Accuracy:
+Porcentaje total de predicciones correctas.
+Accuracy = TP / TP + TN + FP + FN
+
+Recall o Sensitivity:
+Capacidad para identificar correctamente los positivos.
+Recall = TP / TP + FN
+
+Specificity:
+Capacidad para identificar correctamente los negativos.
+Specificity = TN / TN + FP
+
+F1-Score:
+Esta medida mide el balance entre la precisión y la sensibilidad y se usa para cuando existe un desbalance entre clases. Es mas especifica porque penaliza los falsos positivos y negativos.
+F1 = 2 * (Precision * Recall / Precision + Recall)
+
+MCC (Matthews Correlation Coefficient):
+Esta medida es brilla en el desbalance de clases y es muy confiable para la claisifiacio2n binaria ya que considera todos los valores que existen en la matriz de confusión.
+MCC = (TP * TN - FP * FN) / sqrt((TP + FP) * (TP + FN) * (TN + FP) * (TN + FN))
+Esta metrica tiene valores entre -1 y 1 donde el -1 es una clasifiacion erronea, el 0 es un desempeño aleatorio y el 1 es una clasificaciòn correcta.
+
+​Hcaemos uso de multiples formulas para considerar todos los valores y asegurarnos que no estamos eligiendo las metricas que hagan que nuestro modelo parezca eficiente cuando puede no serlo, esto puede ocurrir si solo ahcemos iuso de una metrica como accuracy. Para el set de modelos base podemos ver como el modelo de Random FOrest es el que mejor calcula los valores de la matriz de confusion.
+
 #### Comparación ROC
+
+La metrica "Área Bajo la Curva" grafica la tasa de verdaderos positivos contra la tasa de falsos positivos. Esta metrica nos inidica si el modelo es capaz de distinguir las clases, realizar clasificaionces correctas ys e complementa con la metricas como accuracy y precision Esta misma grafica fue extraido del paper del estado del arte.
 
 ![image](https://github.com/user-attachments/assets/6c020263-8522-479f-ad06-264d3eb4a09f)
 
@@ -117,6 +159,8 @@ Para la evaluación de los modelo hice uso de métricas vistas en clase asi como
 | Confusion_1           | 12.51      |  
 | SleepQuality          | 10.02      |  
 
+F-Score permite cuantificar la significancia de una feature para la predicción o clasificación de las clases. Esot significa que entre masyor putnaje tenga una features es mas relevante para la clasificación y predicción. Es un proceso matematico que permite orednar y seleccionar las feauters mas importantes para reducir la cantidad de informacion de un dataset sin sacrificar las caracerisicas mas importantes para la prediccion. Para este proyecto podemos observar como "FunctionalAssessment" es la caracteristica mas importante para la predicción ya que cuenta con un mayor puntaje comparado al resoto de features.
+
 #### Evaluación de Subconjuntos:
 
 | Sub_Fe | Accuracy | Sensitivity | Specificity | MCC         |
@@ -130,16 +174,21 @@ Para la evaluación de los modelo hice uso de métricas vistas en clase asi como
 | 10     | 0.912145 |  0.914894   |   0.910569  |   0.814386  | 
 | 12     | 0.919897 |  0.914894   |   0.922764  |   0.829495  |
 
+En este proceso hacemos uso de los features mas importantes que fueron calculados mediante el f-score. Estamos evaluando subconjuntos de caracteristicas y estamos geenrando y evaluando un modelo para cada uno de los subconjuntos y evaluando con las metricas previamente analizadas. Esto nos permite obetener el numero obtimo de subconjutnos que sera usado para entrenar el modelo final. Estos subconjunots fueron indicados en el paper. Para nuestra situacio2n obtuvimos que el subcojunot con los mejores resutlados fue de 6. POdemos observar como entrenando y probando con pocos subconjuntos afecta negativamente el desempeño del modelo.
+
 #### Mejor subconjunto:
 
 6 características
 Accuracy: 0.92%
+
+Esta metrica de accuracy mide la capacidad de construir un modelo efectivo con el conjunto seleccionado. Usa metricas under the hood como cross validation para llegar al resultado.
 
 ### Resultados Fase Dos Experimento Uno
 
 #### Cross Validation
 
 Para esta etapa se hizo uso de la técnica de cross validation, la configuracio2n sugerida por el paper de investigación fueron k = 5.
+Esta tecnica permite evaluar el modelo multiples veces y obteniendoi un promedio despues del proceso. De manera mas especifica si tenemos 5 "folds" dividimos nuestra información, usamos 4 partes para entrenar y una para validar, y realzamis 5 rotaciones para evaluar de manera profunda el modelo. El promedio de las rotaciones es el resultado, esto lo hacemos para asegurarnos que nuestro modelo este aprendiendo y no memorizando. Esta tecnica fue usada en la metodlogia del paper consultado. Podemos obervar que al evaluar con las mismas metricas obtuvimos los mejores resultados hasta el momento. Esto nos indica que el modelo verdaremente esta aprendiendo y es robusto.
 
 | Accuracy    | 93.41% |
 | ------ | ---------|
@@ -148,6 +197,8 @@ Para esta etapa se hizo uso de la técnica de cross validation, la configuracio2
 | F1-Score    | 93.34% |
 
 #### Evaluación Modelo Final
+
+Finalmente, evaluamos de la misma manera que con los modelos base, ya que realizar una comparación de cross validation para el modelo hibrido no es justo ya que obtenemos mucha mas profunidad con cross valdiation. Podemos observar que los resultados son muy buenos, estando cerca o or encima del 90% en la mayoria de las metricas, indicando un buen desempeño en todas las metricas asegunrando que el modelo es robusto y de utilidad.
 
 | Accuracy    | 91.99% |
 | ------ | ---------| 
@@ -159,7 +210,14 @@ Para esta etapa se hizo uso de la técnica de cross validation, la configuracio2
 
 ### Resultados Fase Dos Experimento Uno
 
-Ademas, el paper de investigación hace uso de validaciones para la selección de características.
+Ademas, el paper de investigación hace uso de validaciones para la selección de características. Esta comparacio2n es importante ya que existen mutiples tecnicas para realizar la optimización.
+De manera simplificada: 
+
+- f-score mide de manera individual la relacion con la clase sin considerar otras interaccioes y es ideal paradatos numericos en clasificaciones binarias.
+- chi-sqaure se usa para detectar relaciones no lineales entre variables categorizas y clases deseadas
+- mutual information consdiera conjuntos y permite saber como una caracteristica reduce la incertidumbre de la prediccion de una clase.
+- RFE usa la iteración para eliminar las clases con menos peso o menos importantes en cada "paso" dado
+- Lasso permite eliminar cacrecteristicas irrelevantes y penaliza usar un numero excesivo de caracteristicas.
 
 | Método     | Accuracy |
 | ------ | ---------| 
@@ -168,6 +226,12 @@ Ademas, el paper de investigación hace uso de validaciones para la selección d
 | MutInfo    | 87.313%  |
 | RFE        | 87.513%  |
 | Lasso      | 93.406%  |
+
+Podemos observar como la propuesta inidical "f-score" es obtuvo los mejores resultados, para esta comparacio2n se usa accuracy que como ya se discutio indica que tan buenoe s el modelo que se puede construir con el subconjunto seleccionado.
+
+## Usar el Modelo
+
+Para hacer uso del modelo, se puede clonar el repo, acceder a la carpeta del modulo donde se encuentran los archivos. El prpoyecto se desarrollo en un ofmrato .ipynb que permite correr bloques de codigo y eprmite seprara los pasos y logica. Para probar el modelo con nuevos datos se puede hacer uso del archivo "predictions.ipynb". Este archivo abre un modelo previamente guardado con pickle. Pickle es una liberria que te permite guardar modelos yu ocnfigrauciones e impoartarlos para realizar evaluaciones. Ademasm tambien puedes elegir que dataset quieres usar para la evaluacion. Es un frame de pandas que cuenta con las columnas del archivo original. Este fram es procesado de manera simple para que sea compatible con lo que espera el modelo apra que peuda correrse de manera coerrecta. Al correr el bloque de codigo podemos observar la predicción de la clase. En caso de que se pase una query que tenga la clase output,e sta es separada e ignorada y se usa simplemente para la validaciown para no influir con el modelo. Finalmente, se guardan las predicciones en unarchivo csv paara la valdiación.
 
 ## Conclusiones
 
